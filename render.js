@@ -108,7 +108,7 @@ function mapConnections(jsonObject) {
   // Set and label each of the nodes
   jsonObject.forEach(function(node) {
     // g.setNode(node.id.toString(), { label: node.value });
-    g.setNode(node.id.toString(), { label: node.id });
+    g.setNode(node.id.toString(), { label: "value: " + node.value + ", id: " + node.id, width: 100 });
   });
 
   // Set up the edges
