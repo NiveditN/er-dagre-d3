@@ -41,32 +41,36 @@ initial zoom.
 var g = new dagreD3.graphlib.Graph().setGraph({});
 
 // States and transitions from RFC 793
-var states = [ "CLOSED", "LISTEN", "SYN RCVD", "SYN SENT",
-               "ESTAB", "FINWAIT-1", "CLOSE WAIT", "FINWAIT-2",
-               "CLOSING", "LAST-ACK", "TIME WAIT" ];
+var states = [ "NEO", "MORPHEUS", "TRINITY", "DOZER",
+               "MOUSE", "ORACLE", "CYPHER", "TANK",
+               "APOC", "SWITCH", "SMITH" ];
 
 // Automatically label each of the nodes
 states.forEach(function(state) { g.setNode(state, { label: state }); });
 
 // Set up the edges
-g.setEdge("CLOSED",     "LISTEN",     { label: "open" });
-g.setEdge("LISTEN",     "SYN RCVD",   { label: "rcv SYN" });
-g.setEdge("LISTEN",     "SYN SENT",   { label: "send" });
-g.setEdge("LISTEN",     "CLOSED",     { label: "close" });
-g.setEdge("SYN RCVD",   "FINWAIT-1",  { label: "close" });
-g.setEdge("SYN RCVD",   "ESTAB",      { label: "rcv ACK of SYN" });
-g.setEdge("SYN SENT",   "SYN RCVD",   { label: "rcv SYN" });
-g.setEdge("SYN SENT",   "ESTAB",      { label: "rcv SYN, ACK" });
-g.setEdge("SYN SENT",   "CLOSED",     { label: "close" });
-g.setEdge("ESTAB",      "FINWAIT-1",  { label: "close" });
-g.setEdge("ESTAB",      "CLOSE WAIT", { label: "rcv FIN" });
-g.setEdge("FINWAIT-1",  "FINWAIT-2",  { label: "rcv ACK of FIN" });
-g.setEdge("FINWAIT-1",  "CLOSING",    { label: "rcv FIN" });
-g.setEdge("CLOSE WAIT", "LAST-ACK",   { label: "close" });
-g.setEdge("FINWAIT-2",  "TIME WAIT",  { label: "rcv FIN" });
-g.setEdge("CLOSING",    "TIME WAIT",  { label: "rcv ACK of FIN" });
-g.setEdge("LAST-ACK",   "CLOSED",     { label: "rcv ACK of FIN" });
-g.setEdge("TIME WAIT",  "CLOSED",     { label: "timeout=2MSL" });
+g.setEdge("NEO",   "TRINITY",     { label: "linked" });
+g.setEdge("NEO",     "MORPHEUS",     { label: "linked" });
+g.setEdge("MORPHEUS",     "TRINITY",   { label: "linked" });
+g.setEdge("MORPHEUS",     "DOZER",   { label: "linked" });
+g.setEdge("MORPHEUS",     "NEO",     { label: "linked" });
+g.setEdge("TRINITY",   "ORACLE",  { label: "linked" });
+g.setEdge("TRINITY",   "MOUSE",      { label: "linked" });
+g.setEdge("TRINITY",   "TANK",      { label: "linked" });
+g.setEdge("DOZER",   "TRINITY",   { label: "linked" });
+g.setEdge("DOZER",   "MOUSE",      { label: "linked" });
+g.setEdge("DOZER",   "NEO",     { label: "linked" });
+// g.setEdge("NEO",   "MOUSE",     { label: "linked" });
+
+g.setEdge("MOUSE",      "ORACLE",  { label: "linked" });
+g.setEdge("MOUSE",      "CYPHER", { label: "linked" });
+g.setEdge("ORACLE",  "TANK",  { label: "linked" });
+g.setEdge("ORACLE",  "APOC",    { label: "linked" });
+g.setEdge("CYPHER", "SWITCH",   { label: "linked" });
+g.setEdge("TANK",  "SMITH",  { label: "linked" });
+g.setEdge("APOC",    "SMITH",  { label: "linked" });
+// g.setEdge("SWITCH",   "NEO",     { label: "linked" });
+g.setEdge("SMITH",  "NEO",     { label: "linked" });
 
 // Set some general styles
 g.nodes().forEach(function(v) {
@@ -75,8 +79,8 @@ g.nodes().forEach(function(v) {
 });
 
 // Add some custom colors based on state
-g.node('CLOSED').style = "fill: #f77";
-g.node('ESTAB').style = "fill: #7f7";
+g.node('NEO').style = "fill: #7f7";
+g.node('SMITH').style = "fill: #f77";
 
 var svg = d3.select("svg"),
     inner = svg.select("g");
