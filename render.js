@@ -1,11 +1,11 @@
 /* ================================ SAMPLE DATA ================================= */
 
 var sampleJson = [
-  {id: 1, value: "A", connections: [2,5,6]}, 
-  {id: 2, value: "B", connections: [3,4,8]},
+  {id: 1, value: "A", connections: [2, 5, 6, 26]}, 
+  {id: 2, value: "B", connections: [3, 4, 8]},
   {id: 3, value: "C", connections: [4]},
-  {id: 4, value: "D", connections: [1,8]},
-  {id: 5, value: "E", connections: [2,3,4]},
+  {id: 4, value: "D", connections: [1, 8]},
+  {id: 5, value: "E", connections: [2, 3, 4]},
   {id: 6, value: "F", connections: [5]},
   {id: 7, value: "G", connections: [9]},
   {id: 8, value: "H", connections: [10, 11]},
@@ -19,8 +19,8 @@ var sampleJson = [
   {id: 16, value: "P", connections: [12, 17, 18]},
   {id: 17, value: "Q", connections: []},
   {id: 18, value: "R", connections: [17]},
-  {id: 19, value: "S", connections: []},
-  {id: 20, value: "T", connections: [15, 19]},
+  {id: 19, value: "S", connections: [20]},
+  {id: 20, value: "T", connections: [15]},
   {id: 21, value: "U", connections: [20, 22]},
   {id: 22, value: "V", connections: [20]},
   {id: 23, value: "W", connections: [24]},
@@ -38,20 +38,20 @@ function updateGraph() {
   console.log('UPDATING');
   var obj = JSON.parse(document.getElementById("jsonObjectArea").value);
   console.log("JSON object: ", obj);
-  plotGraph(obj);
+  verifyNodes(obj);
 }
 
 
 // render sample json object
 function renderSampleJson() {
   console.log('UPDATING')  
-  plotGraph(sampleJson);
+  verifyNodes(sampleJson);
   document.getElementById("jsonObjectArea").value = JSON.stringify(sampleJson);
 }
 
 
 // plot the graph from json object
-function plotGraph(jsonObject) {
+function verifyNodes(jsonObject) {
   var node = {},
     neighbor = {},
     validData = false,
@@ -95,7 +95,7 @@ function plotGraph(jsonObject) {
 
   // MAP NODE EDGES
   if(validData) {
-    mapConnections(jsonObject, function() {
+    plotGraph(jsonObject, function() {
       console.log('node mapped');
     });  
   }    
@@ -103,7 +103,7 @@ function plotGraph(jsonObject) {
 
 
 // map all nodes with edges
-function mapConnections(jsonObject) {
+function plotGraph(jsonObject) {
   
   console.log('MAPPING EDGES')
 
