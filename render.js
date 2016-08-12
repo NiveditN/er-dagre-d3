@@ -1,38 +1,39 @@
 var sampleJson = [
-  {id: 1, value: "A", connections: [2,5]}, 
+  {id: 1, value: "A", connections: [2,5,6]}, 
   {id: 2, value: "B", connections: [3,4]},
   {id: 3, value: "C", connections: [4]},
   {id: 4, value: "D", connections: [1]},
-  {id: 5, value: "E", connections: [4]},
+  {id: 5, value: "E", connections: [2,3,4]},
+  {id: 6, value: "F", connections: [5]},
 ];
 
 // Create a new directed graph
 var g = new dagreD3.graphlib.Graph().setGraph({ edgeSep: 30 });
 
 // States and transitions from RFC 793
-var states = [ "NEO", "MORPHEUS", "TRINITY", "DOZER",
-               "MOUSE", "ORACLE", "CYPHER", "TANK",
+var states = [ "NEO", "MORPHEUS", "ORACLE", "TRINITY",
+               "MOUSE", "DOZER", "CYPHER", "TANK",
                "APOC", "SWITCH", "SMITH" ];
 
 // Automatically label each of the nodes
 states.forEach(function(state) { g.setNode(state, { label: state }); });
 
 // Set up the edges
-g.setEdge("NEO",   "TRINITY",     { label: "" });
+g.setEdge("NEO",   "ORACLE",     { label: "" });
 g.setEdge("NEO",     "MORPHEUS",     { label: "" });
+g.setEdge("MORPHEUS",     "ORACLE",   { label: "" });
 g.setEdge("MORPHEUS",     "TRINITY",   { label: "" });
-g.setEdge("MORPHEUS",     "DOZER",   { label: "" });
 g.setEdge("MORPHEUS",     "NEO",     { label: "" });
-g.setEdge("TRINITY",   "ORACLE",  { label: "" });
+g.setEdge("ORACLE",   "DOZER",  { label: "" });
+g.setEdge("ORACLE",   "MOUSE",      { label: "" });
+g.setEdge("ORACLE",   "TANK",      { label: "" });
+g.setEdge("TRINITY",   "ORACLE",   { label: "" });
 g.setEdge("TRINITY",   "MOUSE",      { label: "" });
-g.setEdge("TRINITY",   "TANK",      { label: "" });
-g.setEdge("DOZER",   "TRINITY",   { label: "" });
-g.setEdge("DOZER",   "MOUSE",      { label: "" });
-g.setEdge("DOZER",   "NEO",     { label: "" });
-g.setEdge("MOUSE",      "ORACLE",  { label: "" });
+g.setEdge("TRINITY",   "NEO",     { label: "" });
+g.setEdge("MOUSE",      "DOZER",  { label: "" });
 g.setEdge("MOUSE",      "CYPHER", { label: "" });
-g.setEdge("ORACLE",  "TANK",  { label: "" });
-g.setEdge("ORACLE",  "APOC",    { label: "" });
+g.setEdge("DOZER",  "TANK",  { label: "" });
+g.setEdge("DOZER",  "APOC",    { label: "" });
 g.setEdge("CYPHER", "SWITCH",   { label: "" });
 g.setEdge("TANK",  "SMITH",  { label: "" });
 g.setEdge("APOC",    "SMITH",  { label: "" });
