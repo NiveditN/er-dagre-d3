@@ -25,17 +25,22 @@ body {
 }
 </style>
 
-<h1>Dagre D3 Demo: TCP State Diagram</h1>
+<h1>Dagre D3 Demo</h1>
 
 <svg width=960 height=600><g/></svg>
 
 <section>
-<p>A sample rendering of a TCP state diagram
-(<a href="http://www.rfc-editor.org/rfc/rfc793.txt">RFC 793</a>). This example
-shows how to set custom styles in the input graph and how to set a custom
-initial zoom.
+<p>A sample rendering of a Dagre-D3 graph.</p>
 </section>
+
+<h3>Enter JSON</h3>
+<textarea id="jsonObjectArea"></textarea>
+<br/>
+<button id="submit" onclick="updateGraph()">Submit</button>
+<button id="submit" onclick="renderSampleJson()">Render Sample JSON</button>
+<button id="submit" onclick="location.reload()">Refresh</button>
+<div id="padding-div"></div>
 
 <script src="render.js"></script>
 
-<script src="demo.js"></script>
+<!-- <script src="demo.js"></script> -->

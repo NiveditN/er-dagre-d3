@@ -33,3 +33,12 @@ svg {
 pre {
   border: 1px solid #ccc;
 }
+
+textarea {
+    width: 300px;
+    min-height: 150px;    
+}
+
+#padding-div {
+  height: 50px;
+}
