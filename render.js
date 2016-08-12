@@ -15,12 +15,12 @@ var sampleJson = [
   {id: 12, value: "L", connections: []},
   {id: 13, value: "M", connections: [10, 12, 14]},
   {id: 14, value: "N", connections: [12]},
-  {id: 15, value: "O", connections: [8, 12, 13]},
-  // {id: 16, value: "P", connections: []},
-  // {id: 17, value: "Q", connections: []},
-  // {id: 18, value: "R", connections: []},
-  // {id: 19, value: "S", connections: []},
-  // {id: 20, value: "T", connections: []},
+  {id: 15, value: "O", connections: [8, 12, 13, 16]},
+  {id: 16, value: "P", connections: [12, 17, 18, 19]},
+  {id: 17, value: "Q", connections: []},
+  {id: 18, value: "R", connections: [19]},
+  {id: 19, value: "S", connections: []},
+  {id: 20, value: "T", connections: [15]},
   // {id: 21, value: "U", connections: []},
   // {id: 22, value: "V", connections: []},
   // {id: 23, value: "W", connections: []},
@@ -108,7 +108,7 @@ function mapConnections(jsonObject) {
   console.log('MAPPING EDGES')
 
   // Create a new directed graph
-  var g = new dagreD3.graphlib.Graph().setGraph({ edgeSep: 50 });
+  var g = new dagreD3.graphlib.Graph().setGraph({ edgeSep: 30 });
 
   // Set and label each of the nodes
   jsonObject.forEach(function(node) {
