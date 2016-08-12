@@ -35,10 +35,22 @@ pre {
 }
 
 textarea {
-    width: 300px;
+    width: 400px;
+    max-width: 400px;
     min-height: 150px;    
 }
 
-#padding-div {
-  height: 50px;
+.col {
+  width: 45%;
+  float: left;  
+  margin-bottom: 3em;
+}
+
+.left {
+  border-right: 1px solid grey;
+}
+
+.right {
+  padding-left: 20px;
+  margin-bottom: 3em; 
 }

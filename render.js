@@ -22,6 +22,12 @@ var sampleJson = [
   // {id: 19, value: "S", connections: []},
   // {id: 20, value: "T", connections: []},
   // {id: 21, value: "U", connections: []},
+  // {id: 22, value: "V", connections: []},
+  // {id: 23, value: "W", connections: []},
+  // {id: 24, value: "X", connections: []},
+  // {id: 25, value: "Y", connections: []},
+  // {id: 26, value: "Z", connections: []},
+  // {id: , value: "", connections: []},
 ];
   
 
@@ -52,7 +58,6 @@ function plotGraph(jsonObject) {
     outgoingEdges, 
     totalEdges;
 
-  
   // get each node
   loop1:
   for(i=0; i<jsonObject.length; i++) {
