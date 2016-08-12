@@ -2,12 +2,28 @@
 
 var sampleJson = [
   {id: 1, value: "A", connections: [2,5,6]}, 
-  {id: 2, value: "B", connections: [3,4]},
+  {id: 2, value: "B", connections: [3,4,8]},
   {id: 3, value: "C", connections: [4]},
-  {id: 4, value: "D", connections: [1]},
+  {id: 4, value: "D", connections: [1,8]},
   {id: 5, value: "E", connections: [2,3,4]},
   {id: 6, value: "F", connections: [5]},
+  {id: 7, value: "G", connections: [9]},
+  {id: 8, value: "H", connections: [10, 11]},
+  {id: 9, value: "I", connections: [11]},
+  {id: 10, value: "J", connections: [9]},
+  {id: 11, value: "K", connections: []},
+  // {id: 12, value: "L", connections: []},
+  // {id: 13, value: "M", connections: []},
+  // {id: 14, value: "N", connections: []},
+  // {id: 15, value: "O", connections: []},
+  // {id: 16, value: "P", connections: []},
+  // {id: 17, value: "Q", connections: []},
+  // {id: 18, value: "R", connections: []},
+  // {id: 19, value: "S", connections: []},
+  // {id: 20, value: "T", connections: []},
+  // {id: 21, value: "U", connections: []},
 ];
+  
 
 /* ================================ FUNCTIONS ================================= */
 
@@ -32,10 +48,13 @@ function renderSampleJson() {
 function plotGraph(jsonObject) {
   var node = {},
     neighbor = {},
+    validData = false,
     outgoingEdges, 
     totalEdges;
 
+  
   // get each node
+  loop1:
   for(i=0; i<jsonObject.length; i++) {
 
     node = jsonObject[i];
@@ -44,40 +63,52 @@ function plotGraph(jsonObject) {
     neighbor = {};
     
     // CHECK NODE CONNECTIONS
+    loop2:
     for(j=0; j<jsonObject.length; j++) {
-      neighbor = jsonObject[i];
+      // console.log("HERE")
+      neighbor = jsonObject[j];
       // break if node fails criteria
-      if(neighbor.id !== node.id) {
-        if(neighbor.connections.indexOf(node.id) !== -1) {
-          totalEdges++;
-        }
+      // console.log("ID check:", neighbor.id !== node.id)
+      if(neighbor.id !== node.id && (neighbor.connections).indexOf(node.id) !== -1) {
+        // console.log('HERE')
+        totalEdges++;
       }
     }
 
+    // console.log("Total edges for node " + node.id, totalEdges)
+
     if(totalEdges > 5) {
-      console.log('ERROR: more than 5 edges on node ' + node.id);
-      break;
+      alert('ERROR: more than 5 edges on node id ' + node.id);
+      validData = false;
+      break loop1;
     } else {
-      console.log('Node passed criteria: ' + node.id);
+      console.log('Node passed criteria: ' + node.id);      
+      validData = true;
     }
   }
 
+
   // MAP NODE EDGES
-  mapConnections(jsonObject, function() {
-    console.log('node mapped');
-  });
+  if(validData) {
+    mapConnections(jsonObject, function() {
+      console.log('node mapped');
+    });  
+  }    
 };
 
 
 // map all nodes with edges
 function mapConnections(jsonObject) {
   
+  console.log('MAPPING EDGES')
+
   // Create a new directed graph
   var g = new dagreD3.graphlib.Graph().setGraph({ edgeSep: 50 });
 
   // Set and label each of the nodes
   jsonObject.forEach(function(node) {
-    g.setNode(node.id.toString(), { label: node.value });
+    // g.setNode(node.id.toString(), { label: node.value });
+    g.setNode(node.id.toString(), { label: node.id });
   });
 
   // Set up the edges
@@ -192,7 +223,8 @@ function enterTheMatrix() {
 
 }
 
-enterTheMatrix();
+// enterTheMatrix();
+renderSampleJson();
 
 
 /* ================================ DEPRECATED ================================= */
