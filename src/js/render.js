@@ -1,12 +1,28 @@
 /* ================================ SAMPLE DATA ================================= */
 
+var originalJson = [
+  {id: 1, value: "A", connections: [3, 4, 5]}, 
+  {id: 2, value: "B", connections: [3]},
+  {id: 3, value: "C", connections: [7]},
+  {id: 4, value: "D", connections: [5]},
+  {id: 5, value: "E", connections: [13]},
+  {id: 6, value: "F", connections: [3]},
+  {id: 7, value: "G", connections: [8]},
+  {id: 8, value: "H", connections: [9]},
+  {id: 9, value: "I", connections: []},
+  {id: 10, value: "J", connections: [8, 9]},
+  {id: 11, value: "K", connections: [5, 13]},
+  {id: 12, value: "L", connections: []},
+  {id: 13, value: "M", connections: [12]},
+]
+
 var sampleJson = [
   {id: 1, value: "A", connections: [2, 5, 6, 26]}, 
   {id: 2, value: "B", connections: [3, 4, 8]},
   {id: 3, value: "C", connections: [4]},
   {id: 4, value: "D", connections: [1, 8]},
   {id: 5, value: "E", connections: [2, 3, 4]},
-  {id: 6, value: "F", connections: [5]},
+  {id: 6, value: "F", connections: [5, 14]},
   {id: 7, value: "G", connections: [9]},
   {id: 8, value: "H", connections: [10, 11]},
   {id: 9, value: "I", connections: [11]},
@@ -29,6 +45,10 @@ var sampleJson = [
   {id: 26, value: "Z", connections: [21, 23, 25]},
   // {id: , value: "", connections: []},
 ];
+
+
+var paths = [];
+var intersections = [];
   
 
 /* ================================ FUNCTIONS ================================= */
@@ -49,14 +69,26 @@ function renderSampleJson() {
   document.getElementById("jsonObjectArea").value = JSON.stringify(sampleJson);
 }
 
+// render sample json object
+function renderOriginalJson() {
+  console.log('UPDATING')  
+  verifyNodes(originalJson);
+  document.getElementById("jsonObjectArea").value = JSON.stringify(originalJson);
+}
+
 
 // plot the graph from json object
 function verifyNodes(jsonObject) {
+
   var node = {},
     neighbor = {},
     validData = false,
     outgoingEdges, 
     totalEdges;
+
+    paths = [];
+    intersections = [];
+
 
   // get each node
   loop1:
@@ -70,24 +102,18 @@ function verifyNodes(jsonObject) {
     // CHECK NODE CONNECTIONS
     loop2:
     for(j=0; j<jsonObject.length; j++) {
-      // console.log("HERE")
       neighbor = jsonObject[j];
       // break if node fails criteria
-      // console.log("ID check:", neighbor.id !== node.id)
       if(neighbor.id !== node.id && (neighbor.connections).indexOf(node.id) !== -1) {
-        // console.log('HERE')
         totalEdges++;
       }
     }
-
-    // console.log("Total edges for node " + node.id, totalEdges)
 
     if(totalEdges > 5) {
       alert('ERROR: more than 5 edges on node id ' + node.id);
       validData = false;
       break loop1;
     } else {
-      console.log('Node passed criteria: ' + node.id);      
       validData = true;
     }
   }
@@ -100,6 +126,46 @@ function verifyNodes(jsonObject) {
     });  
   }    
 };
+
+// check if two curved svg paths intersect
+function checkIntersection(path, secondPath) {
+  // Kevin Lindsey's library
+  var shape1 = new Path(path);
+  var shape2 = new Path(secondPath);
+  var overlays = Intersection.intersectShapes(shape1, shape2);
+
+  for (point in overlays.points) {
+    if (overlays.points[point].hasOwnProperty('x') && overlays.points[point].hasOwnProperty('y')) {
+       intersections.push(overlays.points[point]);
+       path.setAttribute('style', 'stroke: red; fill: none')
+       secondPath.setAttribute('style', 'stroke: red; fill: none')
+    }
+  } 
+}
+
+// find all intersection points in graph
+function findAllIntersections() {
+
+  paths = document.getElementsByClassName('path');
+
+  var firstPath, secondPath;
+
+  for(var m = 0; m < paths.length; m++) {
+    firstPath = paths[m];
+    for(n=m+1; n < paths.length; n++) {
+      secondPath = paths[n];
+      if(m!==n)
+      checkIntersection(firstPath, secondPath);
+    }      
+  }
+
+  console.log('Intersections: ', intersections);
+
+  if(intersections.length > 0) {
+    // Do something
+    alert("Intersections found: " + intersections.length )
+  }    
+}
 
 
 // map all nodes with edges
@@ -152,8 +218,11 @@ function plotGraph(jsonObject) {
     .event(svg);
   svg.attr('height', g.graph().height * initialScale + 40);
 
+  findAllIntersections();
+
 }
 
+renderOriginalJson();
 
 /* ================================ DEFAULT GRAPH ================================= */
 
@@ -226,10 +295,27 @@ function enterTheMatrix() {
     .event(svg);
   svg.attr('height', g.graph().height * initialScale + 40);
 
+  /*
+
+  // document.getElementsByClassName('path')[0].getAttribute('d')
+
+  function getPoints() {
+    g.edges().forEach(function(e) {
+      var edge = g.edge(e)
+      console.log("Edge " + e.v + " -> " + e.w + ": " + JSON.stringify(g.edge(e)));
+      drawPoint(edge.points[1].x, edge.points[1].y, 'green');
+    });
+  }
+
+  getPoints();
+
+  */
+
 }
 
 // enterTheMatrix();
-renderSampleJson();
+// renderSampleJson();
+
 
 
 /* ================================ DEPRECATED ================================= */

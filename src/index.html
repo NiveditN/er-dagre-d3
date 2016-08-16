@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="css/demo.css">
 <script src="lib/d3.v3.min.js"></script>
 <script src="lib/dagre-d3.js"></script>
+<script src="lib/Intersection.js"></script>
+<script src="lib/2D.js"></script>
 
 <h1>Dagre D3 Demo</h1>
 
@@ -26,8 +28,11 @@
 
   <div class="col right">
     <h3>Render Samples</h3>
+    <button id="submit" onclick="renderOriginalJson()">Render Original JSON</button>
     <button id="submit" onclick="renderSampleJson()">Render Sample JSON</button>
     <button id="submit" onclick="enterTheMatrix()">Enter The Matrix</button>  
+    <br/>
+
   </div>
 
 </section>
